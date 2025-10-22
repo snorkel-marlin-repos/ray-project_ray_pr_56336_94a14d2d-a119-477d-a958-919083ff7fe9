@@ -71,7 +71,7 @@ def instantiate_adapter_from_config(
         )
 
     try:
-        adapter_instance.initialize()
+        adapter_instance.initialize(config=task_processor_config)
     except Exception as e:
         raise RuntimeError(f"Failed to initialize {adapter_class.__name__}: {e}")
 
@@ -158,7 +158,7 @@ def task_handler(
 
     Arguments:
         _func: The function to decorate.
-        name: The name of the task. Default is the method name.
+        name: The name of the task.
 
     Returns:
         A wrapper function that is marked as a task handler.

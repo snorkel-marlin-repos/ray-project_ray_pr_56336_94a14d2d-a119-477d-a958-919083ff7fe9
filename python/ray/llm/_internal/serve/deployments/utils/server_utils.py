@@ -9,7 +9,6 @@ from pydantic import ValidationError as PydanticValidationError
 
 from ray import serve
 from ray.llm._internal.serve.configs.openai_api_models import (
-    ErrorInfo,
     ErrorResponse,
     OpenAIHTTPException,
 )
@@ -111,12 +110,11 @@ def get_response_for_error(
     if "(Request ID: " not in internal_message:
         internal_message += f" (Request ID: {request_id})"
 
-    error_info = ErrorInfo(
+    error_response = ErrorResponse(
         message=f"Message: {message}, Internal exception: {internal_message}, original exception: {str(e)}",
         code=status_code,
         type=exc_type,
     )
-    error_response = ErrorResponse(error=error_info)
     return error_response
 
 

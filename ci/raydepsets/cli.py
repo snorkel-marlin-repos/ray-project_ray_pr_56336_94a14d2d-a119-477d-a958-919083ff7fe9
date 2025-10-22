@@ -5,7 +5,7 @@ from typing import List, Optional
 
 import click
 import runfiles
-from networkx import DiGraph, topological_sort, ancestors as networkx_ancestors
+from networkx import DiGraph, topological_sort
 
 from ci.raydepsets.workspace import Depset, Workspace
 
@@ -60,7 +60,10 @@ def build(
         workspace_dir=workspace_dir,
         uv_cache_dir=uv_cache_dir,
     )
-    manager.execute(name)
+    if name:
+        manager.execute_single(_get_depset(manager.config.depsets, name))
+    else:
+        manager.execute()
 
 
 class DependencySetManager:
@@ -97,17 +100,7 @@ class DependencySetManager:
             else:
                 raise ValueError(f"Invalid operation: {depset.operation}")
 
-    def subgraph_dependency_nodes(self, depset_name: str):
-        dependency_nodes = networkx_ancestors(self.build_graph, depset_name)
-        nodes = dependency_nodes | {depset_name}
-        self.build_graph = self.build_graph.subgraph(nodes).copy()
-
-    def execute(self, single_depset_name: Optional[str] = None):
-        if single_depset_name:
-            # check if the depset exists
-            _get_depset(self.config.depsets, single_depset_name)
-            self.subgraph_dependency_nodes(single_depset_name)
-
+    def execute(self):
         for node in topological_sort(self.build_graph):
             depset = self.build_graph.nodes[node]["depset"]
             self.execute_single(depset)

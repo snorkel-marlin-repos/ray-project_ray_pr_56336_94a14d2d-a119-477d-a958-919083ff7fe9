@@ -13,6 +13,7 @@
 // limitations under the License.
 #pragma once
 
+#include <pwd.h>
 #include <sys/types.h>
 
 #include <fstream>

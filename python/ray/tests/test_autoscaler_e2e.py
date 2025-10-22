@@ -124,15 +124,12 @@ def test_ray_status_e2e(local_autoscaling_cluster, shutdown_only):
     actor = Actor.remote()
     ray.get(actor.ping.remote())
 
+    assert "Total Demands" in subprocess.check_output("ray status", shell=True).decode()
     assert (
-        "Pending Demands" in subprocess.check_output("ray status", shell=True).decode()
+        "Total Demands" in subprocess.check_output("ray status -v", shell=True).decode()
     )
     assert (
-        "Pending Demands"
-        in subprocess.check_output("ray status -v", shell=True).decode()
-    )
-    assert (
-        "Pending Demands"
+        "Total Demands"
         in subprocess.check_output("ray status --verbose", shell=True).decode()
     )
 
