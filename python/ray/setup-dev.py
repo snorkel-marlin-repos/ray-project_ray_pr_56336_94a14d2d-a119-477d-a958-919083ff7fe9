@@ -16,10 +16,9 @@ if this_dir in sys.path:
     sys.path.append(this_dir)
 
 import argparse
+import click
 import shutil
 import subprocess
-
-import click
 
 import ray
 

@@ -1,42 +1,11 @@
-from ray.includes.object_ref import (
-    _set_future_helper,
-    ObjectRef
-)
+from typing import Awaitable, TypeVar
 
-from ray.includes.unique_ids import (
-    check_id,
-    BaseID,
-    UniqueID,
-    TaskID,
-    NodeID,
-    JobID,
-    WorkerID,
-    ActorID,
-    FunctionID,
-    ActorClassID,
-    ClusterID,
-    ObjectID,
-    PlacementGroupID,
-)
+R = TypeVar("R")
 
 
-__all__ = [
-    # ray.includes.unique_ids
-    "ActorClassID",
-    "ActorID",
-    "BaseID",
-    "ClusterID",
-    "FunctionID",
-    "JobID",
-    "NodeID",
-    "ObjectID",
-    "PlacementGroupID",
-    "TaskID",
-    "UniqueID",
-    "WorkerID",
-    "check_id",
+class ObjectRef(Awaitable[R]): # type: ignore
+    pass
 
-    # ray.includes.object_ref
-    "_set_future_helper",
-    "ObjectRef",
-]
+
+class ObjectID(Awaitable[R]): # type: ignore
+    pass
